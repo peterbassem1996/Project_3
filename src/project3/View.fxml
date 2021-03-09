@@ -4,6 +4,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -16,6 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project3.Controller">
    <children>
@@ -75,12 +79,12 @@
                                     <Insets left="25.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="emplyeeName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" promptText="Name" GridPane.columnIndex="1">
+                              <TextField fx:id="employeeName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" promptText="Name" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="25.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <DatePicker fx:id="datePicker" prefHeight="27.0" prefWidth="400.0" promptText="MM/DD/YYYY" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <DatePicker fx:id="datePicker" editable="false" prefHeight="27.0" prefWidth="400.0" promptText="MM/DD/YYYY" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets left="25.0" />
                                  </GridPane.margin>
@@ -129,7 +133,7 @@
                                     </RadioButton>
                                  </children>
                               </HBox>
-                              <TextField fx:id="salar_wage" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="400.0" promptText="0.00" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <TextField fx:id="salary_wage" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="400.0" promptText="0.00" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <GridPane.margin>
                                     <Insets left="25.0" />
                                  </GridPane.margin>
@@ -172,12 +176,12 @@
                                     <Insets left="25.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="addEmployee" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addEmployee" prefWidth="125.0" text="Add Emplyee">
+                              <Button fx:id="addEmployee" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addEmployee" prefWidth="125.0" text="Add Employee">
                                  <HBox.margin>
                                     <Insets left="16.5" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="removeEmp" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeEmp" prefWidth="125.0" text="Remove Emplyee">
+                              <Button fx:id="removeEmp" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeEmp" prefWidth="125.0" text="Remove Employee">
                                  <HBox.margin>
                                     <Insets left="16.5" />
                                  </HBox.margin>
@@ -191,12 +195,47 @@
                      </bottom></BorderPane>
                </content>
             </Tab>
-          <Tab text="Emplyee Database">
+          <Tab text="Employee Database">
                <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.4000244140625" minWidth="10.0" prefWidth="157.6" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="447.19999999999993" minWidth="10.0" prefWidth="443.19999999999993" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="105.00000610351563" minHeight="10.0" prefHeight="37.00000610351563" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="185.7999938964844" minHeight="10.0" prefHeight="185.7999938964844" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Command from the Menu" wrappingWidth="178.9367070198059" GridPane.columnIndex="1" />
+                        <MenuBar fx:id="commandMenu" GridPane.rowIndex="1">
+                          <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                              <items>
+                                <MenuItem fx:id="importDatabase" mnemonicParsing="false" onAction="#importDatabase" text="Import" />
+                                    <MenuItem fx:id="exportDatabase" mnemonicParsing="false" onAction="#exportDatabase" text="Export" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Print">
+                              <items>
+                                <MenuItem fx:id="printEmployees" mnemonicParsing="false" onAction="#print" text="All Employee" />
+                                    <MenuItem fx:id="printByDepartment" mnemonicParsing="false" onAction="#printByDepartment" text="By Department" />
+                                    <MenuItem fx:id="printByDate" mnemonicParsing="false" onAction="#printByDate" text="By Date Hired" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Payment">
+                              <items>
+                                <MenuItem fx:id="compute" mnemonicParsing="false" onAction="#calculatePayment" text="Compute" />
+                              </items>
+                            </Menu>
+                          </menus>
+                        </MenuBar>
+                     </children>
+                  </GridPane>
                </content></Tab>
         </tabs>
       </TabPane>
-      <TextArea fx:id="textArea" prefHeight="228.0" prefWidth="600.0" />
+      <TextArea fx:id="textArea" editable="false" prefHeight="228.0" prefWidth="600.0" />
    </children>
 </VBox>

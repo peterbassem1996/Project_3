@@ -31,6 +31,15 @@ public class Company {
     }
 
     /**
+     * Getter method for the employee list
+     *
+     * @return empList The list of employees
+     */
+    public Employee[] getEmpList(){
+        return empList;
+    }
+
+    /**
      * Find method to find the employee in the list
      * 
      * @param employee The employee that is needed to be find

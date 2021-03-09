@@ -1,89 +1,113 @@
 package project3;
 
-/**
- * Sample Skeleton for 'sample.fxml' Controller Class
- */
-
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Controller {
 
+    private static final int MAX_NUM_OF_COMMAND_PARTS = 7;
+    private static final int FIRST_ARG_INDEX = 0;
+    private static final int SECOND_ARG_INDEX = 1;
+    private static final int THIRD_ARG_INDEX = 2;
+    private static final int FORTH_ARG_INDEX = 3;
+    private static final int FIFTH_ARG_INDEX = 4;
+    private static final int SIXTH_ARG_INDEX = 5;
     private Company ourCompany = new Company();
 
-    @FXML // fx:id="emplyeeName"
-    private TextField emplyeeName; // Value injected by FXMLLoader
+    @FXML
+    private TextField employeeName;
 
-    @FXML // fx:id="datePicker"
-    private DatePicker datePicker; // Value injected by FXMLLoader
+    @FXML
+    private DatePicker datePicker;
 
-    @FXML // fx:id="csRadioBtn"
-    private RadioButton csRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton csRadioBtn;
 
-    @FXML // fx:id="job_category"
-    private ToggleGroup job_category; // Value injected by FXMLLoader
+    @FXML
+    private ToggleGroup job_category;
 
-    @FXML // fx:id="itRadioBtn"
-    private RadioButton itRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton itRadioBtn;
 
-    @FXML // fx:id="eceRadioBtn"
-    private RadioButton eceRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton eceRadioBtn;
 
-    @FXML // fx:id="fulltimeRadioBtn"
-    private RadioButton fulltimeRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton fulltimeRadioBtn;
 
-    @FXML // fx:id="Employment_Type"
-    private ToggleGroup Employment_Type; // Value injected by FXMLLoader
+    @FXML
+    private ToggleGroup Employment_Type;
 
-    @FXML // fx:id="parttimeRadioBtn"
-    private RadioButton parttimeRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton parttimeRadioBtn;
 
-    @FXML // fx:id="managementRadioBtn"
-    private RadioButton managementRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton managementRadioBtn;
 
-    @FXML // fx:id="salar_wage"
-    private TextField salar_wage; // Value injected by FXMLLoader
+    @FXML
+    private TextField salary_wage;
 
-    @FXML // fx:id="hoursWorked"
-    private TextField hoursWorked; // Value injected by FXMLLoader
+    @FXML
+    private TextField hoursWorked;
 
-    @FXML // fx:id="managerRadioBtn"
-    private RadioButton managerRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton managerRadioBtn;
 
-    @FXML // fx:id="mng_level"
-    private ToggleGroup mng_level; // Value injected by FXMLLoader
+    @FXML
+    private ToggleGroup mng_level;
 
-    @FXML // fx:id="departmentHeadRadioBtn"
-    private RadioButton departmentHeadRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton departmentHeadRadioBtn;
 
-    @FXML // fx:id="directorRadioBtn"
-    private RadioButton directorRadioBtn; // Value injected by FXMLLoader
+    @FXML
+    private RadioButton directorRadioBtn;
 
-    @FXML // fx:id="clear"
-    private Button clear; // Value injected by FXMLLoader
+    @FXML
+    private Button clear;
 
-    @FXML // fx:id="addEmployee"
-    private Button addEmployee; // Value injected by FXMLLoader
+    @FXML
+    private Button addEmployee;
 
-    @FXML // fx:id="removeEmp"
-    private Button removeEmp; // Value injected by FXMLLoader
+    @FXML
+    private Button removeEmp;
 
-    @FXML // fx:id="setHours"
-    private Button setHours; // Value injected by FXMLLoader
+    @FXML
+    private Button setHours;
 
-    @FXML // fx:id="textArea"
-    private TextArea textArea; // Value injected by FXMLLoader
+    @FXML
+    private MenuBar commandMenu;
+
+    @FXML
+    private MenuItem importDatabase;
+
+    @FXML
+    private MenuItem exportDatabase;
+
+    @FXML
+    private MenuItem printEmployees;
+
+    @FXML
+    private MenuItem printByDepartment;
+
+    @FXML
+    private MenuItem printByDate;
+
+    @FXML
+    private MenuItem compute;
+
+    @FXML
+    private TextArea textArea;
 
     private boolean validateName() {
-        if(emplyeeName.getText().isEmpty()){
+        if(employeeName.getText().isEmpty()){
             textArea.appendText("Name cannot be empty!\n");
             return false;
         }
@@ -92,9 +116,9 @@ public class Controller {
 
     private double validateSalary() {
         double returnedVal;
-        if(!salar_wage.getText().isEmpty()){
+        if(!salary_wage.getText().isEmpty()){
             try{
-                returnedVal = Double.parseDouble(salar_wage.getText());
+                returnedVal = Double.parseDouble(salary_wage.getText());
             }
             catch (NumberFormatException e){
                 textArea.appendText("Wages and salaries must be a numerical value.\n");
@@ -153,7 +177,7 @@ public class Controller {
     }
 
     @FXML
-    void addEmployee(ActionEvent event) {
+    public void addEmployee(ActionEvent event) {
 
         //date creation and check
         Date inputDate;
@@ -179,7 +203,7 @@ public class Controller {
         if(eceRadioBtn.isSelected()) department = "ECE";
 
         if(parttimeRadioBtn.isSelected()){
-            if (!ourCompany.add(new Parttime(emplyeeName.getText(), department, inputDate, payRate))){
+            if (!ourCompany.add(new Parttime(employeeName.getText(), department, inputDate, payRate))){
                 textArea.appendText("Employee is already in the list.\n");
             }
             else {
@@ -188,7 +212,7 @@ public class Controller {
         }
 
         if(fulltimeRadioBtn.isSelected()){
-            if (!ourCompany.add(new Fulltime(emplyeeName.getText(), department, inputDate, payRate))){
+            if (!ourCompany.add(new Fulltime(employeeName.getText(), department, inputDate, payRate))){
                 textArea.appendText("Employee is already in the list.\n");
             }
             else {
@@ -205,28 +229,27 @@ public class Controller {
                 if (directorRadioBtn.isSelected()) management = 3;
             }
 
-            if (!ourCompany.add(new Management(emplyeeName.getText(), department, inputDate, payRate, management))){
+            if (!ourCompany.add(new Management(employeeName.getText(), department, inputDate, payRate, management))){
                 textArea.appendText("Employee is already in the list.\n");
             }
             else {
                 textArea.appendText("Employee added.\n");
             }
         }
-        ourCompany.print();
     }
 
     @FXML
-    void clear(ActionEvent event) {
+    public void clear(ActionEvent event) {
         textArea.clear();
     }
 
     @FXML
-    void enableManagement(ActionEvent event) {
+    public void enableManagement(ActionEvent event) {
         managerRadioBtn.setDisable(false);
         departmentHeadRadioBtn.setDisable(false);
         directorRadioBtn.setDisable(false);
+        salary_wage.setDisable(false);
         hoursWorked.setDisable(true);
-
     }
 
     private void disableManagement(){
@@ -236,19 +259,21 @@ public class Controller {
     }
 
     @FXML
-    void fulltime(ActionEvent event) {
+    public void fulltime(ActionEvent event) {
         disableManagement();
+        salary_wage.setDisable(false);
         hoursWorked.setDisable(true);
     }
 
     @FXML
-    void parttime(ActionEvent event) {
+    public void parttime(ActionEvent event) {
         hoursWorked.setDisable(false);
         disableManagement();
+        salary_wage.setDisable(true);
     }
 
     @FXML
-    void removeEmp(ActionEvent event) {
+    public void removeEmp(ActionEvent event) {
         if (ourCompany.getNumEmployee() == 0) {
             textArea.appendText("Employee database is empty.\n");
             return;
@@ -271,17 +296,16 @@ public class Controller {
             if(itRadioBtn.isSelected()) department = "IT";
             if(eceRadioBtn.isSelected()) department = "ECE";
 
-            if (!ourCompany.remove(new Employee(emplyeeName.getText(), department, inputDate))) {
+            if (!ourCompany.remove(new Employee(employeeName.getText(), department, inputDate))) {
                 textArea.appendText("Employee cannot be found!\n");
             } else {
                 textArea.appendText("Employee removed.\n");
             }
         }
-        ourCompany.print();
     }
 
     @FXML
-    void setHours(ActionEvent event) {
+    public void setHours(ActionEvent event) {
         if (ourCompany.getNumEmployee() == 0) {
             textArea.appendText("Employee database is empty.\n");
             return;
@@ -307,13 +331,410 @@ public class Controller {
             double hours = validateHours();
             if(hours == -1) return;
 
-            if (!ourCompany.setHours(new Employee(emplyeeName.getText(), department, inputDate), hours)) {
+            if (!ourCompany.setHours(new Employee(employeeName.getText(), department, inputDate), hours)) {
                 textArea.appendText("Employee cannot be found!\n");
-            } else {
+            }
+            else {
                 textArea.appendText("Working hours set.\n");
             }
         }
         ourCompany.print();
     }
 
+    @FXML
+    public void calculatePayment(ActionEvent event) {
+
+        if (ourCompany.getNumEmployee() == 0) {
+            textArea.appendText("Employee database is empty. \n");
+        }
+        else {
+            ourCompany.processPayments();
+            textArea.appendText("Calculation of employee payments is done! \n");
+        }
+    }
+
+    @FXML
+    public void exportDatabase(ActionEvent event) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Target File for the Export");
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        Stage stage = new Stage();
+        File targetFile = chooser.showSaveDialog(stage);
+
+        FileWriter file;
+
+        try{
+            file = new FileWriter(targetFile);
+
+            BufferedWriter writer = new BufferedWriter(file);
+
+            for(int i = 0; i < ourCompany.getNumEmployee(); i++){
+                writer.write(ourCompany.getEmpList()[i].toString(), 0, ourCompany.getEmpList()[i].toString().length());
+                writer.newLine();
+            }
+
+            writer.flush();
+            writer.close();
+            file.close();
+        }
+        catch(IOException e){
+            textArea.appendText("Invalid File \n");
+            return;
+        }
+
+        textArea.appendText("File exported. \n");
+    }
+
+    @FXML
+    public void importDatabase(ActionEvent event) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Source File for the Import");
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        Stage stage = new Stage();
+        File sourceFile = chooser.showOpenDialog(stage);
+
+        Scanner input;
+
+        try {
+            input = new Scanner(sourceFile);
+        }
+        catch(FileNotFoundException e){
+            textArea.appendText("File Not Found. \n");
+            return;
+        }
+
+        do {
+            commandExecution(input.nextLine(), ourCompany);
+        }
+        while (input.hasNext());
+    }
+
+    @FXML
+    public void print(ActionEvent event) {
+        //If the list is empty
+        if (ourCompany.getNumEmployee() <= 0) {
+            textArea.appendText("Employee Database is empty.\n");
+            return;
+        }
+
+        textArea.appendText("--Printing earning statements for all employees--\n");
+
+        for (int i = 0; i < ourCompany.getNumEmployee(); i++) {
+            textArea.appendText(ourCompany.getEmpList()[i].toString() + "\n");
+        }
+    }
+
+    @FXML
+    public void printByDate(ActionEvent event) {
+        //If the list is empty
+        if (ourCompany.getNumEmployee() <= 0) {
+            textArea.appendText("Employee Database is empty.\n");
+            return;
+        }
+
+        textArea.appendText("--Printing earning statements by date hired--\n");
+
+        //Sorting them according to the dates
+        for (int i = 0; i < ourCompany.getNumEmployee(); i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < ourCompany.getNumEmployee(); j++) {
+                if (ourCompany.getEmpList()[j].getDateHired().compareTo(ourCompany.getEmpList()[minIndex].getDateHired()) < 0) {
+                    minIndex = j;
+                }
+            }
+            Employee tempEmployee = ourCompany.getEmpList()[minIndex];
+            ourCompany.getEmpList()[minIndex] = ourCompany.getEmpList()[i];
+            ourCompany.getEmpList()[i] = tempEmployee;
+        }
+
+        //Printing the employees
+        for (int i = 0; i < ourCompany.getNumEmployee(); i++) {
+            textArea.appendText(ourCompany.getEmpList()[i].toString() + "\n");
+        }
+    }
+
+    @FXML
+    public void printByDepartment(ActionEvent event) {
+        //If the list is empty
+        if (ourCompany.getNumEmployee() <= 0) {
+            textArea.appendText("Employee Database is empty.\n");
+            return;
+        }
+
+        textArea.appendText("--Printing earning statements by department--\n");
+
+        //Sorting them by department
+        for (int i = 0; i < ourCompany.getNumEmployee(); i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < ourCompany.getNumEmployee(); j++) {
+                if (ourCompany.getEmpList()[j].getDepartment().compareTo(ourCompany.getEmpList()[minIndex].getDepartment()) < 0) {
+                    minIndex = j;
+                }
+            }
+            Employee tempEmployee = ourCompany.getEmpList()[minIndex];
+            ourCompany.getEmpList()[minIndex] = ourCompany.getEmpList()[i];
+            ourCompany.getEmpList()[i] = tempEmployee;
+        }
+
+
+        //Printing the employees
+        for (int i = 0; i < ourCompany.getNumEmployee(); i++) {
+            textArea.appendText(ourCompany.getEmpList()[i].toString() + "\n");
+        }
+    }
+
+    /**
+     * A method to handle the errors
+     *
+     * @param employee The current employee
+     */
+    private void errorHandle(Employee employee) {
+        int errorCode = employee.getErrNo();
+        switch (errorCode) {
+            case Employee.NAME_ERR:
+                textArea.appendText("Name cannot be empty! \n");
+                break;
+            case Employee.DEP_ERR:
+                textArea.appendText("'" + employee.getDepartment() + "'" + " is not a valid department! \n");
+                break;
+            case Employee.ANNUAL_SAL_ERR:
+                textArea.appendText("Salary cannot be negative. \n");
+                break;
+            case Employee.MANG_ERR:
+                textArea.appendText("Invalid management Code! \n");
+                break;
+            case Employee.RATE_ERR:
+                textArea.appendText("Pay rate cannot be negative. \n");
+                break;
+            case Employee.DATE_ERR:
+                textArea.appendText(employee.getDateHired() + " is not a valid Date! \n");
+                break;
+            case Employee.HOURS_ERR_NEG:
+                textArea.appendText("Working Hours cannot be negative. \n");
+                break;
+            case Employee.HOURS_ERR_EXCEED:
+                textArea.appendText("Invalid Hours: Over 100. \n");
+                break;
+            case Employee.NO_ERR:
+                textArea.appendText("Employee does not exist. \n");
+                break;
+        }
+    }
+
+    /**
+     * A method that executes the commands
+     *
+     * @param command The command entered by the user
+     * @param company The list of the employees
+     * @return true if we need to continue, otherwise false
+     */
+    private boolean commandExecution(String command, Company company) {
+        // variables used
+        String[] commandParts = new String[MAX_NUM_OF_COMMAND_PARTS];
+        StringTokenizer tokens = new StringTokenizer(command, ",");
+        int counter = 0;
+
+        // tokenizing the command into parts
+        while (tokens.hasMoreTokens() && counter < MAX_NUM_OF_COMMAND_PARTS) {
+            commandParts[counter] = tokens.nextToken();
+            counter++;
+        }
+
+        Employee emp;
+
+        if (commandParts[FIRST_ARG_INDEX] == null) {
+            return true;
+        }
+
+        //Adding a parttime
+        else if (commandParts[FIRST_ARG_INDEX].equals("P")) {
+
+            try {
+                emp = new Parttime(commandParts[SECOND_ARG_INDEX], commandParts[THIRD_ARG_INDEX],
+                        new Date(commandParts[FORTH_ARG_INDEX]), Double.parseDouble(commandParts[FIFTH_ARG_INDEX]));
+            } catch (Exception e) {
+                textArea.appendText("The employee data dosn't match the form! \n");
+                return true;
+            }
+
+
+            if (!emp.validate()) {
+                errorHandle(emp);
+            }
+            else if (!company.add(emp)) {
+                textArea.appendText("Employee is already in the list. \n");
+                return true;
+            }
+            else {
+                textArea.appendText("Employee added. \n");
+                return true;
+            }
+
+        }
+
+        //Adding a fulltime
+        else if (commandParts[FIRST_ARG_INDEX].equals("F")) {
+
+            try {
+                emp = new Fulltime(commandParts[SECOND_ARG_INDEX], commandParts[THIRD_ARG_INDEX],
+                        new Date(commandParts[FORTH_ARG_INDEX]), Double.parseDouble(commandParts[FIFTH_ARG_INDEX]));
+            }
+            catch (Exception e) {
+                textArea.appendText("The employee data dosn't match the form! \n");
+                return true;
+            }
+            if (!emp.validate()) {
+                errorHandle(emp);
+            }
+            else if (!company.add(emp)) {
+                textArea.appendText("Employee is already in the list.\n");
+                return true;
+            }
+            else {
+                textArea.appendText("Employee added. \n");
+                return true;
+            }
+        }
+
+        //Adding a management employee
+        else if (commandParts[FIRST_ARG_INDEX].equals("M")) {
+
+            try {
+                emp = new Management(commandParts[SECOND_ARG_INDEX], commandParts[THIRD_ARG_INDEX],
+                        new Date(commandParts[FORTH_ARG_INDEX]), Double.parseDouble(commandParts[FIFTH_ARG_INDEX]),
+                        Integer.parseInt(commandParts[SIXTH_ARG_INDEX]));
+            }
+            catch (Exception e) {
+                textArea.appendText("The employee data dosn't match the form! \n");
+                return true;
+            }
+            if (!emp.validate()) {
+                errorHandle(emp);
+            }
+            else if (!company.add(emp)) {
+                textArea.appendText("Employee is already in the list. \n");
+                return true;
+            }
+            else {
+                textArea.appendText("Employee added. \n");
+                return true;
+            }
+
+        }
+
+        //Removing an employee
+        else if (commandParts[FIRST_ARG_INDEX].equals("R")) {
+
+            if (company.getNumEmployee() == 0) {
+                textArea.appendText("Employee database is empty. \n");
+                return true;
+            } else {
+                try {
+                    emp = new Employee(commandParts[SECOND_ARG_INDEX], commandParts[THIRD_ARG_INDEX],
+                            new Date(commandParts[FORTH_ARG_INDEX]));
+                } catch (Exception e) {
+                    textArea.appendText("The employee data dosn't match the form! \n");
+                    return true;
+                }
+                if (!company.remove(emp)) {
+                    errorHandle(emp);
+                }
+                else {
+                    textArea.appendText("Employee removed. \n");
+                    return true;
+                }
+            }
+
+        }
+
+        //Calculate the payments
+        else if (commandParts[FIRST_ARG_INDEX].equals("C")) {
+
+            if (company.getNumEmployee() == 0) {
+                textArea.appendText("Employee database is empty. \n");
+                return true;
+            } else {
+                company.processPayments();
+                textArea.appendText("Calculation of employee payments is done! \n");
+                return true;
+            }
+
+        }
+
+        //Set hours of the parttime employee
+        else if (commandParts[FIRST_ARG_INDEX].equals("S")) {
+
+            double hours;
+
+            if (company.getNumEmployee() == 0) {
+                textArea.appendText("Employee database is empty. \n");
+                return true;
+            }
+            else {
+                try {
+                    emp = new Parttime(commandParts[SECOND_ARG_INDEX], commandParts[THIRD_ARG_INDEX],
+                            new Date(commandParts[FORTH_ARG_INDEX]), 0);
+
+                    hours = Double.parseDouble(commandParts[FIFTH_ARG_INDEX]);
+                }
+                catch (Exception e) {
+                    textArea.appendText("The command doesn't match the form! \n");
+                    return true;
+                }
+
+                if (hours < 0) {
+                    textArea.appendText("Working Hours cannot be negative! \n");
+                    return true;
+                }
+
+                else if (hours > 100) {
+                    textArea.appendText("Invalid Hours: over 100!");
+                    return true;
+                }
+
+                if (!company.setHours(emp, hours)) {
+                    errorHandle(emp);
+                    return true;
+                }
+                else {
+                    textArea.appendText("Working hours set.");
+                    return true;
+                }
+            }
+
+        }
+
+        //Print the employees
+        else if (commandParts[FIRST_ARG_INDEX].equals("PA")) {
+            company.print();
+            return true;
+        }
+
+        //Print the employees by date hired
+        else if (commandParts[FIRST_ARG_INDEX].equals("PH")) {
+            company.printByDate();
+            return true;
+        }
+
+        //Print the employees by the department
+        else if (commandParts[FIRST_ARG_INDEX].equals("PD")) {
+            company.printByDepartment();
+            return true;
+        }
+
+        //Quit the program
+        else if (commandParts[FIRST_ARG_INDEX].equals("Q")) {
+            textArea.appendText("Payroll Processing copleted. \n");
+            return false;
+        }
+        else {
+            textArea.appendText("Command '" + commandParts[FIRST_ARG_INDEX] + "' not supported! \n");
+            return true;
+        }
+        return true;
+    }
 }

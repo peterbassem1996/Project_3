@@ -4,17 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import org.w3c.dom.events.Event;
-
-
-import java.awt.*;
+import java.io.File;
 
 public class Main extends Application {
 
@@ -25,7 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("View.fxml"));
         primaryStage.setTitle("Project 3");
         primaryStage.setScene(new Scene(root, 600, 590));
         primaryStage.show();
