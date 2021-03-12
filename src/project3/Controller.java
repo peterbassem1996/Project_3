@@ -101,6 +101,9 @@ public class Controller {
     @FXML // fx:id="exportBtn"
     private Button exportBtn; // Value injected by FXMLLoader
 
+    @FXML // fx:id="paymentBtn"
+    private Button paymentBtn; // Value injected by FXMLLoader
+
     private boolean validateName() {
         if(emplyeeName.getText().isEmpty()){
             textArea.appendText("Name cannot be empty!\n");
@@ -421,13 +424,19 @@ public class Controller {
         if (file != null){
             try {
                 FileWriter f2 = new FileWriter(file, false);
-                f2.write(ourCompany.printToFile());
+                f2.write(ourCompany.exportDatabase());
                 f2.close();
 
             } catch (IOException e) {
                 textArea.appendText("Cannot write to the file specified.\n");
             }
         }
+    }
+
+    @FXML
+    void processPayment(ActionEvent event) {
+        ourCompany.processPayments();
+        textArea.appendText("Payments have been processed successfully!\n");
     }
 
 }

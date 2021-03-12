@@ -195,7 +195,7 @@ public class Company {
     /**
      * Prints the employees in the list to file
      */
-    public String printToFile() {
+    public String exportDatabase() {
         String returnedVal = "";
         //If the list is empty
         if (this.numEmployee <= 0) {
