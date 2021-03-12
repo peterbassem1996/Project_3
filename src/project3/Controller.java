@@ -105,6 +105,14 @@ public class Controller {
     @FXML // fx:id="paymentBtn"
     private MenuItem paymentBtn; // Value injected by FXMLLoader
 
+    private void clearInput(){
+        emplyeeName.clear();
+        salar_wage.clear();
+        hoursWorked.clear();
+        datePicker.getEditor().clear();
+        datePicker.setValue(null);
+    }
+
     private boolean validateName() {
         if(emplyeeName.getText().isEmpty()){
             textArea.appendText("Name cannot be empty!\n");
@@ -235,6 +243,7 @@ public class Controller {
                 textArea.appendText("Employee added.\n");
             }
         }
+        clearInput();
         //ourCompany.print();
     }
 
@@ -242,10 +251,7 @@ public class Controller {
     void clear(ActionEvent event) {
 
         textArea.clear();
-        emplyeeName.clear();
-        salar_wage.clear();
-        hoursWorked.clear();
-        datePicker.getEditor().clear();
+        clearInput();
     }
 
     @FXML
@@ -308,6 +314,7 @@ public class Controller {
                 textArea.appendText("Employee removed.\n");
             }
         }
+        clearInput();
         //ourCompany.print();
     }
 
@@ -344,6 +351,7 @@ public class Controller {
                 textArea.appendText("Working hours set.\n");
             }
         }
+        clearInput();
         //ourCompany.print();
     }
 
