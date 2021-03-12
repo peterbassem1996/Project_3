@@ -228,6 +228,6 @@
                </content></Tab>
         </tabs>
       </TabPane>
-      <TextArea fx:id="textArea" prefHeight="228.0" prefWidth="600.0" />
+      <TextArea fx:id="textArea" editable="false" prefHeight="228.0" prefWidth="600.0" />
    </children>
 </VBox>
