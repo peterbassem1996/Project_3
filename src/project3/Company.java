@@ -175,6 +175,7 @@ public class Company {
 
     /**
      * Prints the employees in the list to UI
+     * @return UIformat
      */
     public String printToUI() {
         String returnedVal = "";
@@ -194,6 +195,7 @@ public class Company {
 
     /**
      * Prints the employees in the list to file
+     * @return DBformat
      */
     public String exportDatabase() {
         String returnedVal = "";
@@ -244,6 +246,43 @@ public class Company {
     }
 
     /**
+     * Prints the employees in the list sorted by department
+     * @return printByDep
+     */
+    public String printByDepartmentUI() {
+        String returnedVal = "";
+
+        //If the list is empty
+        if (this.numEmployee <= 0) {
+            returnedVal = "Emplyee Database is empty.\n";
+            return returnedVal;
+        }
+
+        returnedVal += "--Printing earning statements by department--\n";
+
+        //Sorting them by department
+        for (int i = 0; i < numEmployee; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < numEmployee; j++) {
+                if (empList[j].getDepartment().compareTo(empList[minIndex].getDepartment()) < 0) {
+                    minIndex = j;
+                }
+            }
+            Employee tempEmployee = empList[minIndex];
+            empList[minIndex] = empList[i];
+            empList[i] = tempEmployee;
+        }
+
+
+        //Printing the employees
+        for (int i = 0; i < numEmployee; i++) {
+            returnedVal += empList[i].toString() + "\n";
+        }
+        return returnedVal;
+    }
+
+    /**
      * Prints the employees in the list sorted by date
      */
     public void printByDate() {
@@ -274,5 +313,40 @@ public class Company {
         for (int i = 0; i < numEmployee; i++) {
             System.out.println(empList[i].toString());
         }
+    }
+
+    /**
+     * Prints the employees in the list sorted by date
+     */
+    public String printByDateUI() {
+        String returnedVal = "";
+
+        //If the list is empty
+        if (this.numEmployee <= 0) {
+            returnedVal = "Emplyee Database is empty.\n";
+            return returnedVal;
+        }
+
+        returnedVal += "--Printing earning statements by date hired--\n";
+
+        //Sorting them according to the dates
+        for (int i = 0; i < numEmployee; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < numEmployee; j++) {
+                if (empList[j].getDateHired().compareTo(empList[minIndex].getDateHired()) < 0) {
+                    minIndex = j;
+                }
+            }
+            Employee tempEmployee = empList[minIndex];
+            empList[minIndex] = empList[i];
+            empList[i] = tempEmployee;
+        }
+
+        //Printing the employees
+        for (int i = 0; i < numEmployee; i++) {
+            returnedVal += empList[i].toString() + "\n";
+        }
+        return returnedVal;
     }
 }

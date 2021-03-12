@@ -98,6 +98,12 @@ public class Controller {
     @FXML // fx:id="printBtn"
     private Button printBtn; // Value injected by FXMLLoader
 
+    @FXML // fx:id="printByDepBtn"
+    private Button printByDepBtn; // Value injected by FXMLLoader
+
+    @FXML // fx:id="printByDateBtn"
+    private Button printByDateBtn; // Value injected by FXMLLoader
+
     @FXML // fx:id="exportBtn"
     private Button exportBtn; // Value injected by FXMLLoader
 
@@ -399,6 +405,7 @@ public class Controller {
                 }
                 fileCounter++;
             }
+            textArea.appendText("File imported!\n");
         }
         else{
             textArea.appendText("No file selected!");
@@ -409,6 +416,16 @@ public class Controller {
     @FXML
     void printFromFile(ActionEvent event) {
         textArea.appendText(ourCompany.printToUI());
+    }
+
+    @FXML
+    void printByDep(ActionEvent event) {
+        textArea.appendText(ourCompany.printByDepartmentUI());
+    }
+
+    @FXML
+    void printByDate(ActionEvent event) {
+        textArea.appendText(ourCompany.printByDateUI());
     }
 
     @FXML
@@ -426,7 +443,7 @@ public class Controller {
                 FileWriter f2 = new FileWriter(file, false);
                 f2.write(ourCompany.exportDatabase());
                 f2.close();
-
+                textArea.appendText("File exported!\n");
             } catch (IOException e) {
                 textArea.appendText("Cannot write to the file specified.\n");
             }
