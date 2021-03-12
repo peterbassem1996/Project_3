@@ -126,4 +126,11 @@ public class Management extends Fulltime {
         }
         return super.toString() + additionalStr;
     }
+
+    public String toStringUI() {
+        DecimalFormat decimalFormat = new DecimalFormat("#####0.00");
+        return "M," + this.getEmployeeProfile().getName() + "," + this.getEmployeeProfile().getDepartment()+ "," +
+                this.getEmployeeProfile().getDateHired().toString()+ "," + decimalFormat.format(this.getAnnualSalary()) +
+                "," + this.managerLevel;
+    }
 }

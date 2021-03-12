@@ -159,7 +159,7 @@ public class Company {
      * Prints the employees in the list
      */
     public void print() {
-        
+
         //If the list is empty
         if (this.numEmployee <= 0) {
             System.out.println("Emplyee Database is empty.");
@@ -171,6 +171,42 @@ public class Company {
         for (int i = 0; i < numEmployee; i++) {
             System.out.println(empList[i].toString());
         }
+    }
+
+    /**
+     * Prints the employees in the list to UI
+     */
+    public String printToUI() {
+        String returnedVal = "";
+        //If the list is empty
+        if (this.numEmployee <= 0) {
+            returnedVal = "Emplyee Database is empty.\n";
+        }
+        else {
+            returnedVal += "--Printing earning statements for all employees--\n";
+
+            for (int i = 0; i < numEmployee; i++) {
+                returnedVal += empList[i].toString() + "\n";
+            }
+        }
+        return returnedVal;
+    }
+
+    /**
+     * Prints the employees in the list to file
+     */
+    public String printToFile() {
+        String returnedVal = "";
+        //If the list is empty
+        if (this.numEmployee <= 0) {
+            returnedVal = "Emplyee Database is empty.\n";
+        }
+        else {
+            for (int i = 0; i < numEmployee; i++) {
+                returnedVal += empList[i].toStringUI() + "\n";
+            }
+        }
+        return returnedVal;
     }
 
     /**

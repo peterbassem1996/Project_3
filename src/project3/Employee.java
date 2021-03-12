@@ -1,5 +1,7 @@
 package project3;
 
+import java.text.DecimalFormat;
+
 /**
  * Parent Employee class holds the common information between all employees
  * 
@@ -184,5 +186,14 @@ public class Employee {
     @Override
     public String toString() {
         return this.employeeProfile.toString();
+    }
+
+    /**
+     * To String method UI
+     *
+     * @return String The representing parttime employee
+     */
+    public String toStringUI() {
+        return "";
     }
 }

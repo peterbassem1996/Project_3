@@ -142,4 +142,14 @@ public class Parttime extends Employee {
                 + String.format("%.2f", this.hours);
     }
 
+    /**
+     * To String method UI
+     *
+     * @return String The representing parttime employee
+     */
+    public String toStringUI() {
+        DecimalFormat decimalFormat = new DecimalFormat("#####0.00");
+        return "P," + this.getEmployeeProfile().getName() + "," + this.getEmployeeProfile().getDepartment()+ "," +
+                this.getEmployeeProfile().getDateHired().toString()+ "," + decimalFormat.format(this.payRate);
+    }
 }

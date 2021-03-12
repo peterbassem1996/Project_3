@@ -26,6 +26,14 @@ public class Fulltime extends Employee {
     }
 
     /**
+     * annual salary getter
+     * @return annualSalary
+     */
+    public double getAnnualSalary() {
+        return annualSalary;
+    }
+
+    /**
      * Method to validate the annual salary
      * 
      * @return true if the salary is valid, otherwise false
@@ -88,5 +96,16 @@ public class Fulltime extends Employee {
         DecimalFormat decimalFormat = new DecimalFormat("###,##0.00");
         return super.toString() + "::Payment $" + decimalFormat.format(this.getPayment())
                 + "::FULL TIME::Annual Salary $" + decimalFormat.format(this.annualSalary);
+    }
+
+    /**
+     * To String method UI
+     *
+     * @return String The representing fulltime employee
+     */
+    public String toStringUI() {
+        DecimalFormat decimalFormat = new DecimalFormat("#####0.00");
+        return "F," + this.getEmployeeProfile().getName() + "," + this.getEmployeeProfile().getDepartment()+ "," +
+                this.getEmployeeProfile().getDateHired().toString()+ "," + decimalFormat.format(this.annualSalary);
     }
 }

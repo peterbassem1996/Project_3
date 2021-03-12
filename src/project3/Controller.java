@@ -6,18 +6,28 @@ package project3;
 
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Controller {
 
     private Company ourCompany = new Company();
+    private File file;
+    private static final int MAX_NUM_OF_TOKENS = 6;
 
     @FXML // fx:id="emplyeeName"
     private TextField emplyeeName; // Value injected by FXMLLoader
@@ -81,6 +91,15 @@ public class Controller {
 
     @FXML // fx:id="textArea"
     private TextArea textArea; // Value injected by FXMLLoader
+
+    @FXML // fx:id="importBtn"
+    private Button importBtn; // Value injected by FXMLLoader
+
+    @FXML // fx:id="printBtn"
+    private Button printBtn; // Value injected by FXMLLoader
+
+    @FXML // fx:id="exportBtn"
+    private Button exportBtn; // Value injected by FXMLLoader
 
     private boolean validateName() {
         if(emplyeeName.getText().isEmpty()){
@@ -212,7 +231,7 @@ public class Controller {
                 textArea.appendText("Employee added.\n");
             }
         }
-        ourCompany.print();
+        //ourCompany.print();
     }
 
     @FXML
@@ -226,6 +245,7 @@ public class Controller {
         departmentHeadRadioBtn.setDisable(false);
         directorRadioBtn.setDisable(false);
         hoursWorked.setDisable(true);
+        setHours.setDisable(true);
 
     }
 
@@ -239,12 +259,14 @@ public class Controller {
     void fulltime(ActionEvent event) {
         disableManagement();
         hoursWorked.setDisable(true);
+        setHours.setDisable(true);
     }
 
     @FXML
     void parttime(ActionEvent event) {
         hoursWorked.setDisable(false);
         disableManagement();
+        setHours.setDisable(false);
     }
 
     @FXML
@@ -277,7 +299,7 @@ public class Controller {
                 textArea.appendText("Employee removed.\n");
             }
         }
-        ourCompany.print();
+        //ourCompany.print();
     }
 
     @FXML
@@ -313,7 +335,99 @@ public class Controller {
                 textArea.appendText("Working hours set.\n");
             }
         }
-        ourCompany.print();
+        //ourCompany.print();
+    }
+
+    @FXML
+    void importFromFile(ActionEvent event) throws FileNotFoundException {
+        Node node = (Node) event.getSource();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        fileChooser.setInitialDirectory(new File("./Data"));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+        file = fileChooser.showOpenDialog(node.getScene().getWindow());
+        //System.out.println(file == null);
+        if(file != null){
+            Scanner input = new Scanner(file);
+            String line;
+            String tokensArr[] = new String[MAX_NUM_OF_TOKENS];
+            int fileCounter = 1;
+            while (input.hasNext()) {
+                line = input.nextLine();
+                StringTokenizer tokens = new StringTokenizer(line, ",");
+                int counter = 0;
+                while (tokens.hasMoreTokens()) {
+                    tokensArr[counter] = tokens.nextToken();
+                    counter++;
+                }
+//                for (int i = 0; i < tokensArr.length; i++) {
+//                    System.out.print(tokensArr[i] + "\\");
+//                }
+//                System.out.print("\n");
+                int tokensI = 0;
+                if (tokensArr[tokensI++] != null) {
+                    if (tokensArr[0].equals("P")) {
+                        try {
+                            ourCompany.add(new Parttime(tokensArr[tokensI++], tokensArr[tokensI++],
+                                    new Date(tokensArr[tokensI++]), Double.parseDouble(tokensArr[tokensI++])));
+                        } catch (Exception e) {
+                            textArea.appendText("Line " + fileCounter + " can't be read!\n");
+                        }
+                    } else if (tokensArr[0].equals("F")) {
+                        try {
+                            ourCompany.add(new Fulltime(tokensArr[tokensI++], tokensArr[tokensI++],
+                                    new Date(tokensArr[tokensI++]), Double.parseDouble(tokensArr[tokensI++])));
+                        } catch (Exception e) {
+                            textArea.appendText("Line " + fileCounter + " can't be read!\n");
+                        }
+                    } else if (tokensArr[0].equals("M")) {
+                        try {
+                            ourCompany.add(new Management(tokensArr[tokensI++], tokensArr[tokensI++],
+                                    new Date(tokensArr[tokensI++]), Double.parseDouble(tokensArr[tokensI++]),
+                                    Integer.parseInt(tokensArr[tokensI++])));
+                        } catch (Exception e) {
+                            textArea.appendText("Line " + fileCounter + " can't be read!\n");
+                        }
+                    }
+                } else {
+                    textArea.appendText("Line " + fileCounter + " can't be read!\n");
+                }
+                fileCounter++;
+            }
+        }
+        else{
+            textArea.appendText("No file selected!");
+        }
+        //ourCompany.print();
+    }
+
+    @FXML
+    void printFromFile(ActionEvent event) {
+        textArea.appendText(ourCompany.printToUI());
+    }
+
+    @FXML
+    void exportToFile(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        fileChooser.setInitialDirectory(new File("./Data"));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+        file = fileChooser.showSaveDialog(node.getScene().getWindow());
+        if (file != null){
+            try {
+                FileWriter f2 = new FileWriter(file, false);
+                f2.write(ourCompany.printToFile());
+                f2.close();
+
+            } catch (IOException e) {
+                textArea.appendText("Cannot write to the file specified.\n");
+            }
+        }
     }
 
 }
