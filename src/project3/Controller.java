@@ -462,8 +462,13 @@ public class Controller {
 
     @FXML
     void processPayment(ActionEvent event) {
-        ourCompany.processPayments();
-        textArea.appendText("Payments have been processed successfully!\n");
+        if(ourCompany.getNumEmployee() == 0){
+            textArea.appendText("Employee database is empty. \n");
+        }
+        else {
+            ourCompany.processPayments();
+            textArea.appendText("Payments have been processed successfully!\n");
+        }
     }
 
 }
