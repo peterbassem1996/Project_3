@@ -175,7 +175,7 @@ public class Company {
 
     /**
      * Prints the employees in the list to UI
-     * @return UIformat
+     * @return UIString The string representing the employee
      */
     public String printToUI() {
         String returnedVal = "";
@@ -195,7 +195,7 @@ public class Company {
 
     /**
      * Prints the employees in the list to file
-     * @return DBformat
+     * @return data The string representation of the database
      */
     public String exportDatabase() {
         String returnedVal = "";
@@ -317,6 +317,7 @@ public class Company {
 
     /**
      * Prints the employees in the list sorted by date
+     * @return data String representation of the database
      */
     public String printByDateUI() {
         String returnedVal = "";

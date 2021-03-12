@@ -26,8 +26,9 @@ public class Fulltime extends Employee {
     }
 
     /**
-     * annual salary getter
-     * @return annualSalary
+     * Method to get the annual salary
+     *
+     * @return annualSalary The annual salary of the employee
      */
     public double getAnnualSalary() {
         return annualSalary;
@@ -38,7 +39,7 @@ public class Fulltime extends Employee {
      * 
      * @return true if the salary is valid, otherwise false
      */
-    private boolean ValidateAnnualSalary() {
+    private boolean validateAnnualSalary() {
         return annualSalary >= 0;
     }
 
@@ -52,7 +53,7 @@ public class Fulltime extends Employee {
     public boolean validate() {
         
         //Check the annual salary
-        if (!this.ValidateAnnualSalary()) {
+        if (!this.validateAnnualSalary()) {
             this.setErrNo(Employee.ANNUAL_SAL_ERR);
             return false;
         } else {
@@ -99,7 +100,7 @@ public class Fulltime extends Employee {
     }
 
     /**
-     * To String method UI
+     * To String method UI representing fulltime employee
      *
      * @return String The representing fulltime employee
      */

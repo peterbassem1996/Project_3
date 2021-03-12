@@ -44,7 +44,7 @@ public class Parttime extends Employee {
      * 
      * @return true if the hours are not negative, otherwise false
      */
-    private boolean ValidateHoursNotNeg() {
+    private boolean validateHoursNotNeg() {
         return this.hours >= 0;
     }
 
@@ -53,7 +53,7 @@ public class Parttime extends Employee {
      * 
      * @return true if the hours are valid, otherwise false
      */
-    private boolean ValidateHoursNotExec() {
+    private boolean validateHoursNotExec() {
         return this.hours <= 100;
     }
 
@@ -62,7 +62,7 @@ public class Parttime extends Employee {
      * 
      * @return true if the pay rate is valid, otherwise false
      */
-    private boolean ValidatePayRate() {
+    private boolean validatePayRate() {
         return this.payRate >= 0;
     }
 
@@ -74,19 +74,19 @@ public class Parttime extends Employee {
     @Override
     public boolean validate() {
         //Check if the hours are not negative
-        if (!this.ValidateHoursNotNeg()) {
+        if (!this.validateHoursNotNeg()) {
             this.setErrNo(Employee.HOURS_ERR_NEG);
             return false;
         }
         
         //Check if the hours are not exceded
-        else if (!this.ValidateHoursNotExec()) {
+        else if (!this.validateHoursNotExec()) {
             this.setErrNo(Employee.HOURS_ERR_EXCEED);
             return false;
         }
         
         //Check the pay rate
-        else if (!this.ValidatePayRate()) {
+        else if (!this.validatePayRate()) {
             this.setErrNo(Employee.RATE_ERR);
             return false;
         }
@@ -143,7 +143,7 @@ public class Parttime extends Employee {
     }
 
     /**
-     * To String method UI
+     * To String method UI representing a parttime employee
      *
      * @return String The representing parttime employee
      */

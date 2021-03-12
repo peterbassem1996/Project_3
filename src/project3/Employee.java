@@ -1,7 +1,5 @@
 package project3;
 
-import java.text.DecimalFormat;
-
 /**
  * Parent Employee class holds the common information between all employees
  * 
@@ -103,7 +101,7 @@ public class Employee {
      * 
      * @return It returns true if the name is valid, otherwise false
      */
-    private boolean ValidateName() {
+    private boolean validateName() {
         return employeeProfile.getName() != null;
     }
 
@@ -112,7 +110,7 @@ public class Employee {
      * 
      * @return It returns true if the department is valid, otherwise false
      */
-    private boolean ValidateDep() {
+    private boolean validateDep() {
         return (employeeProfile.getDepartment().equals("CS") || employeeProfile.getDepartment().equals("IT")
                 || employeeProfile.getDepartment().equals("ECE"));
     }
@@ -122,7 +120,7 @@ public class Employee {
      * 
      * @return It returns true if the date is valid, otherwise false
      */
-    private boolean ValidateDate() {
+    private boolean validateDate() {
         return employeeProfile.getDateHired().isValid();
     }
 
@@ -134,19 +132,19 @@ public class Employee {
     public boolean validate() {
         
         //Check if the name is valid
-        if (!this.ValidateName()) {
+        if (!this.validateName()) {
             errNo = NAME_ERR;
             return false;
         }
         
         // Check if the department is valid
-        else if (!this.ValidateDep()) {
+        else if (!this.validateDep()) {
             errNo = DEP_ERR;
             return false;
         } 
         
         //Check if the date is valid
-        else if (!this.ValidateDate()) {
+        else if (!this.validateDate()) {
             errNo = DATE_ERR;
             return false;
         } 
@@ -189,7 +187,7 @@ public class Employee {
     }
 
     /**
-     * To String method UI
+     * To String method UI representing an employee
      *
      * @return String The representing parttime employee
      */

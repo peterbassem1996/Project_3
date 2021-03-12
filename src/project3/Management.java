@@ -36,7 +36,7 @@ public class Management extends Fulltime {
      * 
      * @return true if the level is valid, otherwise false
      */
-    private boolean ValidateManagerLevel() {
+    private boolean validateManagerLevel() {
         return this.managerLevel == MANAGER || this.managerLevel == DEP_HEAD || this.managerLevel == DIR;
     }
 
@@ -48,7 +48,7 @@ public class Management extends Fulltime {
     @Override
     public boolean validate() {
         //Check the management level
-        if (!this.ValidateManagerLevel()) {
+        if (!this.validateManagerLevel()) {
             this.setErrNo(Employee.MANG_ERR);
             return false;
         } 
@@ -127,6 +127,11 @@ public class Management extends Fulltime {
         return super.toString() + additionalStr;
     }
 
+    /**
+     * The method to represent the data as a String for the database
+     *
+     * @return data The string representation of Management Employee
+     */
     public String toStringUI() {
         DecimalFormat decimalFormat = new DecimalFormat("#####0.00");
         return "M," + this.getEmployeeProfile().getName() + "," + this.getEmployeeProfile().getDepartment()+ "," +
