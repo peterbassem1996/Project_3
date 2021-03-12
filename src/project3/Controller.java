@@ -407,6 +407,8 @@ public class Controller {
                         } catch (Exception e) {
                             textArea.appendText("Line " + fileCounter + " can't be read!\n");
                         }
+                    } else{
+                        textArea.appendText("Line " + fileCounter + " can't be read!\n");
                     }
                 } else {
                     textArea.appendText("Line " + fileCounter + " can't be read!\n");
