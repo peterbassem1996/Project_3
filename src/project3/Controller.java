@@ -7,12 +7,7 @@ package project3;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -93,22 +88,22 @@ public class Controller {
     private TextArea textArea; // Value injected by FXMLLoader
 
     @FXML // fx:id="importBtn"
-    private Button importBtn; // Value injected by FXMLLoader
+    private MenuItem importBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="printBtn"
-    private Button printBtn; // Value injected by FXMLLoader
+    private MenuItem printBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="printByDepBtn"
-    private Button printByDepBtn; // Value injected by FXMLLoader
+    private MenuItem printByDepBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="printByDateBtn"
-    private Button printByDateBtn; // Value injected by FXMLLoader
+    private MenuItem printByDateBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="exportBtn"
-    private Button exportBtn; // Value injected by FXMLLoader
+    private MenuItem exportBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="paymentBtn"
-    private Button paymentBtn; // Value injected by FXMLLoader
+    private MenuItem paymentBtn; // Value injected by FXMLLoader
 
     private boolean validateName() {
         if(emplyeeName.getText().isEmpty()){
@@ -245,7 +240,12 @@ public class Controller {
 
     @FXML
     void clear(ActionEvent event) {
+
         textArea.clear();
+        emplyeeName.clear();
+        salar_wage.clear();
+        hoursWorked.clear();
+        datePicker.getEditor().clear();
     }
 
     @FXML
@@ -349,7 +349,7 @@ public class Controller {
 
     @FXML
     void importFromFile(ActionEvent event) throws FileNotFoundException {
-        Node node = (Node) event.getSource();
+        Node node = (Node) textArea;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File");
         fileChooser.setInitialDirectory(new File("./Data"));
@@ -408,7 +408,7 @@ public class Controller {
             textArea.appendText("File imported!\n");
         }
         else{
-            textArea.appendText("No file selected!");
+            textArea.appendText("No file selected!\n");
         }
         //ourCompany.print();
     }
@@ -430,7 +430,7 @@ public class Controller {
 
     @FXML
     void exportToFile(ActionEvent event) {
-        Node node = (Node) event.getSource();
+        Node node = (Node) textArea;;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File");
         fileChooser.setInitialDirectory(new File("./Data"));
