@@ -9,12 +9,12 @@ import java.text.DecimalFormat;
  * @author Maharshi Patel
  */
 public class Management extends Fulltime {
-    private static final int MANAGER = 1;
-    private static final int DEP_HEAD = 2;
-    private static final int DIR = 3;
-    private static final double MANAGER_COMP = 5000;
-    private static final double DEP_HEAD_COMP = 9500;
-    private static final double DIR_COMP = 12000;
+    public static final int MANAGER = 1;
+    public static final int DEP_HEAD = 2;
+    public static final int DIR = 3;
+    public static final double MANAGER_COMP = 5000;
+    public static final double DEP_HEAD_COMP = 9500;
+    public static final double DIR_COMP = 12000;
     private int managerLevel;
 
     /**

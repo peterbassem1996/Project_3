@@ -36,6 +36,9 @@ public class Controller {
     private Company ourCompany = new Company();
     private File file;
     private static final int MAX_NUM_OF_TOKENS = 6;
+    private static final int INITIAL_FILE_COUNTER = 1;
+    private static final int ERROR_CODE = -1;
+    private static final int MAX_HOURS = 100;
 
     @FXML
     private TextField employeeName;
@@ -47,9 +50,6 @@ public class Controller {
     private RadioButton csRadioBtn;
 
     @FXML
-    private ToggleGroup job_category;
-
-    @FXML
     private RadioButton itRadioBtn;
 
     @FXML
@@ -59,16 +59,13 @@ public class Controller {
     private RadioButton fulltimeRadioBtn;
 
     @FXML
-    private ToggleGroup Employment_Type;
-
-    @FXML
     private RadioButton parttimeRadioBtn;
 
     @FXML
     private RadioButton managementRadioBtn;
 
     @FXML
-    private TextField salar_wage;
+    private TextField salary_wage;
 
     @FXML
     private TextField hoursWorked;
@@ -77,22 +74,10 @@ public class Controller {
     private RadioButton managerRadioBtn;
 
     @FXML
-    private ToggleGroup mng_level;
-
-    @FXML
     private RadioButton departmentHeadRadioBtn;
 
     @FXML
     private RadioButton directorRadioBtn;
-
-    @FXML
-    private Button clear;
-
-    @FXML
-    private Button addEmployee;
-
-    @FXML
-    private Button removeEmp;
 
     @FXML
     private Button setHours;
@@ -100,30 +85,12 @@ public class Controller {
     @FXML
     private TextArea textArea;
 
-    @FXML
-    private MenuItem importBtn;
-
-    @FXML
-    private MenuItem printBtn;
-
-    @FXML
-    private MenuItem printByDepBtn;
-
-    @FXML
-    private MenuItem printByDateBtn;
-
-    @FXML
-    private MenuItem exportBtn;
-
-    @FXML
-    private MenuItem paymentBtn;
-
     /**
      * A method to clear the text area and the data fields
      */
     private void clearInput(){
         employeeName.clear();
-        salar_wage.clear();
+        salary_wage.clear();
         hoursWorked.clear();
         datePicker.getEditor().clear();
         datePicker.setValue(null);
@@ -153,24 +120,24 @@ public class Controller {
         double returnedVal;
 
         //If the salary is not empty
-        if(!salar_wage.getText().isEmpty()){
+        if(!salary_wage.getText().isEmpty()){
             try{
-                returnedVal = Double.parseDouble(salar_wage.getText());
+                returnedVal = Double.parseDouble(salary_wage.getText());
             }
             catch (NumberFormatException e){
                 textArea.appendText("Wages and salaries must be a numerical value.\n");
-                return -1;
+                return ERROR_CODE;
             }
             if(returnedVal < 0){
                 textArea.appendText("Wages and salaries cannot be less than ZERO!\n");
-                return -1;
+                return ERROR_CODE;
             }
         }
 
         //The salary is empty
         else{
             textArea.appendText("Wages and salaries cannot be empty!\n");
-            return -1;
+            return ERROR_CODE;
         }
         return returnedVal;
     }
@@ -190,26 +157,26 @@ public class Controller {
             }
             catch (NumberFormatException e){
                 textArea.appendText("Hours Worked must be a numerical value.\n");
-                return -1;
+                return ERROR_CODE;
             }
 
             //The hours are less than 0
             if(returnedVal < 0){
                 textArea.appendText("Hours Worked cannot be less than ZERO!\n");
-                return -1;
+                return ERROR_CODE;
             }
 
             //The hours are greater than 100
-            if(returnedVal > 100){
+            if(returnedVal > MAX_HOURS){
                 textArea.appendText("Hours Worked cannot be more than 100!\n");
-                return -1;
+                return ERROR_CODE;
             }
         }
 
         //The hours are empty
         else{
             textArea.appendText("Hours Worked cannot be empty!\n");
-            return -1;
+            return ERROR_CODE;
         }
         return returnedVal;
     }
@@ -292,9 +259,9 @@ public class Controller {
             int management = 0;
             if (!validateManagement()) {return;}
             else {
-                if (managerRadioBtn.isSelected()) management = 1;
-                if (departmentHeadRadioBtn.isSelected()) management = 2;
-                if (directorRadioBtn.isSelected()) management = 3;
+                if (managerRadioBtn.isSelected()) management = Management.MANAGER;
+                if (departmentHeadRadioBtn.isSelected()) management = Management.DEP_HEAD;
+                if (directorRadioBtn.isSelected()) management = Management.DIR;
             }
 
             if (!ourCompany.add(new Management(employeeName.getText(), department, inputDate, payRate, management))){
@@ -437,7 +404,7 @@ public class Controller {
             if(eceRadioBtn.isSelected()) department = "ECE";
 
             double hours = validateHours();
-            if(hours == -1) return;
+            if(hours == ERROR_CODE) return;
 
             //Set the hours of a parttime employee
             if (!ourCompany.setHours(new Employee(employeeName.getText(), department, inputDate), hours)) {
@@ -472,7 +439,7 @@ public class Controller {
             Scanner input = new Scanner(file);
             String line;
             String tokensArr[] = new String[MAX_NUM_OF_TOKENS];
-            int fileCounter = 1;
+            int fileCounter = INITIAL_FILE_COUNTER;
 
             //Reading the file
             while (input.hasNext()) {
