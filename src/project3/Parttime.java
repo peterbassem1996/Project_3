@@ -11,6 +11,10 @@ import java.text.DecimalFormat;
 public class Parttime extends Employee {
     private double payRate;
     private double hours;
+    private static final int MAX_HOURS = 100;
+    private static final int OVERTIME_LIMIT = 80;
+    private static final double OVERTIME_RATE = 1.5;
+    private static final int MIN_HOURS = 0;
 
     /**
      * Part Time employee constructor
@@ -32,8 +36,8 @@ public class Parttime extends Employee {
      * @param hours The hours to set
      */
     public void setHours(double hours) {
-        if (hours > 100) {
-            this.hours = 100;
+        if (hours > MAX_HOURS) {
+            this.hours = MAX_HOURS;
         } else {
             this.hours = hours;
         }
@@ -45,7 +49,7 @@ public class Parttime extends Employee {
      * @return true if the hours are not negative, otherwise false
      */
     private boolean validateHoursNotNeg() {
-        return this.hours >= 0;
+        return this.hours >= MIN_HOURS;
     }
 
     /**
@@ -54,7 +58,7 @@ public class Parttime extends Employee {
      * @return true if the hours are valid, otherwise false
      */
     private boolean validateHoursNotExec() {
-        return this.hours <= 100;
+        return this.hours <= MAX_HOURS;
     }
 
     /**
@@ -63,7 +67,7 @@ public class Parttime extends Employee {
      * @return true if the pay rate is valid, otherwise false
      */
     private boolean validatePayRate() {
-        return this.payRate >= 0;
+        return this.payRate >= MIN_HOURS;
     }
 
     /**
@@ -106,8 +110,8 @@ public class Parttime extends Employee {
         double returnedVal = 0;
         
         //Check overtime
-        if (hours > 80) {
-            returnedVal = (((hours - 80) * 1.5) + 80) * payRate;
+        if (hours > OVERTIME_LIMIT) {
+            returnedVal = (((hours - OVERTIME_LIMIT) * OVERTIME_RATE) + OVERTIME_LIMIT) * payRate;
         } else {
             returnedVal = hours * payRate;
         }
