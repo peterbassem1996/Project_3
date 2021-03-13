@@ -144,7 +144,7 @@
                               </TextField>
                               <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="22.0" prefWidth="451.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <children>
-                                    <RadioButton fx:id="managerRadioBtn" disable="true" mnemonicParsing="false" text="Manager">
+                                    <RadioButton fx:id="managerRadioBtn" disable="true" mnemonicParsing="false" selected="true" text="Manager">
                                        <HBox.margin>
                                           <Insets left="50.0" />
                                        </HBox.margin>
